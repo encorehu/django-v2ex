@@ -1,0 +1,182 @@
+{% load babel %}<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<meta content='True' name='HandheldFriendly' />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<title>{{ site.title }} › 设置</title>
+	<link rel="stylesheet" type="text/css" media="screen"  href="/static/css/mobile/style.css?v={{ system_version }}" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+</head>
+<body>
+	{% include 'mobile/common/top.html' %}
+    <div id="Main">
+		<div class="section"><a href="/" class="black">{{ site.title }}</a> › 选项及设置</div>
+		<div class="cell">
+			<form action="/settings" method="post">
+			{% if errors %}
+			<strong>请解决以下错误之后继续。</strong>
+			<div class="sep10"></div>
+			<ul>
+				{% if member_email_error %}
+				<li>{{ member_email_error_message }}</li>
+				{% endif %}
+				{% if member_website_error %}
+				<li>{{ member_website_error_message }}</li>
+				{% endif %}
+				{% if member_twitter_error %}
+				<li>{{ member_twitter_error_message }}</li>
+				{% endif %}
+				{% if member_tagline_error %}
+				<li>{{ member_tagline_error_message }}</li>
+				{% endif %}
+			</ul>
+			{% endif %}
+			<table cellpadding="5" cellspacing="0" border="0">
+			    <tr>
+			        <td width="80" align="right">
+			            用户名
+			        </td>
+			        <td width="200" align="left">
+			            {{ member_username|escape }}
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			            电子邮件地址
+			        </td>
+			        <td width="200" align="left">
+			            <input type="text" class="sl" name="email" value="{{ member_email|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			            个人网站
+			        </td>
+			        <td width="200" align="left">
+			            <input type="text" class="sl" name="website" value="{{ member_website|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			            Twitter 用户名
+			        </td>
+			        <td width="200" align="left">
+			            <input type="text" class="sl" name="twitter" value="{{ member_twitter|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			            个人签名
+			        </td>
+			        <td width="200" align="left">
+			            <input type="text" class="sl" name="tagline" value="{{ member_tagline|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td align="right">
+			            GitHub Username
+			        </td>
+			        <td width="200" align="left">
+			            <input type="text" class="sl" name="github" value="{{ member_github|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			            自定义首页跳转位置
+			        </td>
+			        <td width="200" align="left">
+			            <input type="text" class="sl" name="my_home" value="{{ member_my_home|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td align="right">
+			            {{ l10n.language }}
+			        </td>
+			        <td width="200" align="left">
+			            {{ s }}
+			        </td>
+			    </tr>
+                <tr>
+			        <td width="80" align="right">
+			        </td>
+			        <td width="200" align="left">
+			            <input type="submit" value="更改设置" class="btn" />
+			        </td>
+			    </tr>
+			</table>
+            </form>
+		</div>
+		<div class="section">头像设置</div>
+		<div class="cell">	
+			<table cellpadding="5" cellspacing="0" border="0">
+			    <tr>
+			        <td width="80" align="right">
+			            当前的头像
+			        </td>
+			        <td width="200" align="left">
+			            {{ member|avatar:"large"|safe }}&nbsp; 
+									{{ member|avatar:"normal"|safe }}&nbsp;
+									{{ member|avatar:"mini"|safe }}&nbsp;
+			        </td>
+			    </tr>
+				<tr>
+			        <td width="80" align="right">
+			            
+			        </td>
+			        <td width="200" align="left">
+			            <a href="/settings/avatar">上传新头像</a>  或者使用 <a href="http://www.gravatar.com/" target="_blank">Gravatar</a> 通用头像.
+			        </td>
+			    </tr>
+			</table>
+		</div>
+		<div class="section">密码设置</div>
+		<div class="cell">
+            <form action="/settings/password" method="post">{% csrf_token %}
+            {% if password_error %}
+			<strong>请解决以下错误之后继续。</strong>
+			<div class="sep10"></div>
+			<ul>
+				{% if password_error %}
+				<li>{{ password_error_message }}</li>
+				{% endif %}
+			</ul>
+			{% else %}
+			<strong class="fade">如果不希望修改密码，请留空以下。</strong>
+			{% endif %}
+			<div class="sep5"></div>
+			<table cellpadding="5" cellspacing="0" border="0">
+			    <tr>
+			        <td width="80" align="right">
+			            当前密码
+			        </td>
+			        <td width="200" align="left">
+			            <input type="password" class="sl" name="password_current" value="{{ password_current|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			            新密码
+			        </td>
+			        <td width="200" align="left">
+			            <input type="password" class="sl" name="password_new" value="{{ password_new|escape }}" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			        </td>
+			        <td width="200" align="left">
+			            <input type="submit" value="更改密码" class="btn" />
+			        </td>
+			    </tr>
+			</table>
+            </form>
+            {% if message %}
+            <div class="sep"></div>
+            {{ message }}
+            {% endif %}
+		</div>
+	</div>
+	{% include 'mobile/common/bottom.html' %}
+</body>
+</html>

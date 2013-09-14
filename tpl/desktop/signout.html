@@ -1,0 +1,26 @@
+{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">   
+        </div>
+        <div id="Rightbar">
+            {% include 'desktop/rightbar/user.html' %}
+        </div>
+        <div id="Content">
+            <div class="box">
+                <div class="cell"><span class="fade"><a href="/">{{ site.title }}</a> {{ l10n.chevron|safe }} {{ l10n.signout }}</span></div>
+                <div class="inner">你已经成功从 {{ site.title }} 登出。没有任何个人信息留在这台设备上。
+    			<div class="sep10"></div>
+    			<div class="sep5"></div>
+    			<a href="/signin" class="super normal button">{{ l10n.signin_again }}</a>
+    			<div class="sep5"></div></div>
+            </div>
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

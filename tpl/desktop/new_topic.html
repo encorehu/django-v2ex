@@ -1,0 +1,53 @@
+{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">   
+        </div>
+        <div id="Rightbar">
+            {% if node.sidebar %}
+            <div class="box"><div class="inner">{{ node.sidebar }}</div></div>
+            <div class="sep20"></div>
+            {% endif %}
+            {% include 'desktop/rightbar/new_topic_tips.html' %}
+        </div>
+        <div id="Content">
+            <div class="box">
+                <div class="cell">
+                    <span class="bigger"><a href="/">{{ site.title }}</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/go/{{ node.name}}">{{ node.title|escape }}</a> <span class="chevron">&nbsp;›&nbsp;</span> {{ l10n.create_new_topic }}</span>
+                </div>
+                <div class="cell">
+                    <form action="/new/{{ node.name }}" method="post">{% csrf_token %}
+                    {% if errors %}
+        			<strong>{{ l10n.resolve_errors }}</strong>
+        			<div class="sep10"></div>
+        			<ul>
+        				{% if topic_title_error %}
+        				<li>{{ topic_title_error_message }}</li>
+        				{% endif %}
+        				{% if topic_content_error %}
+        				<li>{{ topic_content_error_message }}</li>
+        				{% endif %}
+        			</ul>
+        			<div class="sep10"></div>
+                    {% endif %}
+                    <textarea name="title" autofocus maxlength="120" class="mll" style="height: 50px;">{{ topic_title|escape }}</textarea>
+                    <div class="sep10"></div>
+                    <textarea name="content" class="mll tall">{{ topic_content|escape }}</textarea>
+                    {{ tt|safe }}
+                    <div class="sep10"></div>
+                    <input type="submit" value="{{ l10n.create }}" class="super normal button" />
+                    </form>
+                </div>
+                <div class="inner">
+                    <span class="fade"><span class="chevron">‹&nbsp;</span>{{ l10n.back_to}} <a href="/go/{{ node.name }}">{{ node.title|escape }}</a></span>
+                </div>
+            </div>
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

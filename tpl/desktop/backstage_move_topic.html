@@ -1,0 +1,79 @@
+{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">   
+        </div>
+        <div id="Rightbar">
+        </div>
+        <div id="Content">
+            {% if message %}
+            <div class="box">
+                <div class="inner">{{ message }}</div>
+            </div>
+            <div class="sep20"></div>
+            {% endif %}
+            <div class="box">
+                <div class="cell"><div class="fr">{% if ttl %}<strong>距离移动权限关闭还有 <span class="orange">{{ ttl }}</span> 秒</strong>{% endif %}</div><span class="fade"><a href="/">{{ site.title }}</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/t/{{ topic.num }}">{{ topic.title|escape }}</a> <span class="chevron">&nbsp;›&nbsp;</span> 移动主题</span></div>
+                <div class="inner">
+                    <form action="/backstage/move/topic/{{ topic.pk }}" method="post">{% csrf_token %}
+                    <table cellpadding="5" cellspacing="0" border="0">
+        			    <tr>
+        			        <td width="120" align="right">
+        			            Topic ID
+        			        </td>
+        			        <td width="200" align="left">
+        			            {{ topic.num }}
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="120" align="right">
+        			            主题标题
+        			        </td>
+        			        <td width="200" align="left">
+        			            <a href="/t/{{ topic.num }}">{{ topic.title|escape }}</a>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="120" align="right">
+        			            当前位于
+        			        </td>
+        			        <td width="200" align="left">
+        			            <a href="/go/{{ topic.node.name }}">{{ topic.node.title|escape }}</a>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="120" align="right">
+        			            当前回复数
+        			        </td>
+        			        <td width="200" align="left">
+        			            {{ topic.replies }}
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td width="120" align="right">
+        			            目标节点名
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="destination" value="" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="submit" value="{{ l10n.save }}" class="super normal button" />
+        			        </td>
+        			    </tr>
+        			</table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

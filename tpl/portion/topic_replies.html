@@ -1,0 +1,39 @@
+{% load babel %}{% for reply in replies %}
+{% ifequal forloop.counter replies_count %}
+    {% if reply.highlighted %}
+    <div class="inner reply highlighted from_{{ reply.member_num }}">
+    {% else %}
+    <div class="inner reply from_{{ reply.member_num }}">
+    {% endif %}
+{% else %}
+    {% if reply.highlighted %}
+    <div class="cell reply highlighted from_{{ reply.member_num }}">
+    {% else %}
+    <div class="cell reply from_{{ reply.member_num }}">
+    {% endif %}
+{% endifequal %}
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+            <td width="48" valign="top"><a href="/member/{{ reply.created_by }}">{{ reply.member|avatar:"normal"|safe }}</a></td>
+            <td width="10"></td>
+            <td width="auto" valign="top">
+												<div class="fr" id="reply_{{ reply.num }}_buttons">
+													<strong><small class="snow">#{{ forloop.counter }} - {{ reply.created|timesince }} ago &nbsp; <img src="/static/img/reply.png" align="absmiddle" border="0" alt="回复 {{ reply.member.username }}" onclick="replyOne('{{ reply.member.username }}')" class="clickable" /><span class="ops"></span></small></strong>
+												</div>
+                <div class="sep3"></div>
+                <strong><a href="/member/{{ reply.created_by }}" class="dark">{{ reply.created_by }}</a></strong>{% if reply.source %}<span class="snow">&nbsp; via {{ reply.source }}</span>{% endif %}
+                <div class="sep5"></div>
+                <div class="content reply_content">{{ reply.content|escape|youku|sinaimg|imgly|clly|mentions|gist|autolink|linebreaksbr }}</div>
+            </td>
+    </table>
+    <script>
+    replies_keys[({{ forloop.counter }} - 1)] = '{{ reply.pk }}';
+    replies_ids[({{ forloop.counter }} - 1)] = '{{ reply.num }}';
+    {% if reply.parent %}
+    replies_parents[({{ forloop.counter }} - 1)] = 1;
+    {% else %}
+    replies_parents[({{ forloop.counter }} - 1)] = 0;
+    {% endif %}
+    </script>
+</div>
+{% endfor %}

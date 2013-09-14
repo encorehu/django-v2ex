@@ -1,0 +1,60 @@
+{% load babel %}<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<meta content='True' name='HandheldFriendly' />
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
+	<title>{{ site.title }} › 设置 › 头像</title>
+	<link rel="stylesheet" type="text/css" media="screen"  href="/static/css/mobile/style.css?v={{ system_version }}" />
+	<link rel="shortcut icon" href="/favicon.ico" />
+</head>
+<body>
+	{% include 'mobile/common/top.html' %}
+    <div id="Main">
+		<div class="section"><a href="/" class="black">{{ site.title }}</a> › <a href="/settings" class="black">设置</a> › 头像</div>
+		<div class="cell">
+			<table cellpadding="5" cellspacing="0" border="0">
+			    <tr>
+			        <td width="80" align="right">
+			            当前的头像
+			        </td>
+			        <td width="200" align="left">
+			            {{ member|avatar:"large" }}&nbsp; 
+									{{ member|avatar:"normal"|safe }}&nbsp;
+									{{ member|avatar:"mini"|safe }}&nbsp;
+			        </td>
+			    </tr>
+			</table>
+		</div>
+		<div class="cell">
+			<form enctype="multipart/form-data" action="/settings/avatar" method="post">{% csrf_token %}
+            <span class="fade">支持 1MB 以内的 PNG / GIF / JPG 图片文件作为头像。</span>
+			<div class="sep5"></div>
+			<table cellpadding="5" cellspacing="0" border="0">
+			    <tr>
+			        <td width="80" align="right">
+			            选择图片文件
+			        </td>
+			        <td width="200" align="left">
+			            <input type="file" name="avatar" />
+			        </td>
+			    </tr>
+			    <tr>
+			        <td width="80" align="right">
+			        </td>
+			        <td width="200" align="left">
+			            <input type="submit" value="上传" />
+			        </td>
+			    </tr>
+			</table>
+			</form>
+		</div>
+		{% if message %}
+		<div class="cell">
+		{{ message }}
+		</div>
+		{% endif %}
+	</div>
+	{% include 'mobile/common/bottom.html' %}
+</body>
+</html>

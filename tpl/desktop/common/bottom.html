@@ -1,0 +1,36 @@
+<div id="Bottom">
+    <div id="BottomMain"><div class="fr" align="right"><table cellpadding="10" cellspacing="0" border="0"><tr><td><a href="http://www.linode.com/?r=af313ea8a6bb6f99aff800c67349cabbfee2682f" target="_blank"><img src="http://static.v2ex.com/logos/linode.png" border="0" alt="Linode" width="120" /></a></td><td><a href="https://www.upyun.com/?utm_source=upyun-v2ex&utm_medium=ad&utm_campaign=upyun&md=upyun-v2ex" target="_blank"><img src="http://static.v2ex.com/logos/upyun.jpg" border="0" width="120" /></a></div></td></tr></table>
+        </div>
+        <strong><a href="/about" class="dark">关于</a></strong> &nbsp; | &nbsp; <strong><a href="/faq" class="dark">FAQ</a></strong> &nbsp; | &nbsp; <strong><a href="/mission" class="dark">我们的愿景</a></strong> &nbsp; | &nbsp; <strong><a href="/advertise" class="dark">广告投放</a></strong> &nbsp; | &nbsp; <strong><a href="https://workspace.v2ex.com/" class="dark" target="_blank">{{ l10n.workspace }}</a></strong> &nbsp; | &nbsp; <strong><a href="http://www.v2ex.com/gadgetlab" class="dark">Gadget Lab</a></strong> &nbsp; | &nbsp; <strong><a href="http://livid.v2ex.com/" class="dark" target="_blank">博客</a></strong> &nbsp; | &nbsp; <strong><a href="start" class="dark" target="_blank">上网首页</a></strong>
+        <div class="sep10"></div>
+        <div class="sep5"></div>
+        <span class="fade">{{ site.description }}</span>
+        <div class="sep3"></div>
+        <span class="fade">Lovingly made by <a href="http://www.olivida.com/" target="_blank" class="dark"><strong>OLIVIDA</strong></a></span>
+        <div class="sep10"></div>
+        <div class="sep5"></div>
+        <small>VERSION: {{ system_version }}<br />♥ Do have a faith in what you're doing.</small>
+    </div>
+    {% if site.analytics %}
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', '{{ site.analytics }}']);
+      _gaq.push(['_setDomainName', 'none']);
+      _gaq.push(['_setAllowLinker', true]);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+    {% endif %}
+    {% if member %}
+    {% ifequal member.use_my_css 1 %}
+    <style type="text/css">
+    {{ member.my_css }}
+    </style>
+    {% endifequal %}
+    {% endif %}
+</div>

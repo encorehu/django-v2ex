@@ -1,0 +1,28 @@
+{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">
+            
+        </div>
+        <div id="Rightbar">
+            {% include 'desktop/rightbar/user.html' %}
+            <div class="sep20"></div>
+            {% include 'desktop/rightbar/ads.html' %}
+        </div>
+        <div id="Content">
+            <div class="box" id="topics_index">
+                <div class="cell">
+                    <span class="fade"><a href="/">{{ site.title }}</a> <span class="chevron">&nbsp;›&nbsp;</span> 最近的 50 个帖子</span>
+                </div>
+                {% include 'desktop/common/topics_index.html' %}
+                <div class="inner"><span class="chevron">›</span> <a href="/changes">继续浏览全站最新更改记录</a></div>
+            </div>
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

@@ -1,0 +1,163 @@
+{% load babel %}{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">
+            
+        </div>
+        <div id="Rightbar">
+            {% if github_repos %}
+            <div class="box">
+                <div class="cell"><span class="fade">GitHub Public Repos</span></div>
+                {% for repo in github_repos %}
+                {% if forloop.last %}<div class="inner">{% else %}<div class="cell">{% endif %}<div class="fr"><strong class="fade">{% if repo.language %}{{ repo.language }}{% endif %}</strong></div><strong><a href="{{ repo.html_url }}" target="_blank" class="black">{{ repo.name }}</a></strong><div class="sep5"></div><span class="fade">{{ repo.description|escape|urlize }}</span></div>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        <div id="Content">
+            {% if message %}
+            <div class="box">
+                <div class="inner">{{ message }}</div>
+            </div>
+            <div class="sep20"></div>
+            {% endif %}
+            <div class="box">{% if one.bio %}<div class="cell">{% else %}<div class="inner">{% endif %}
+                <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                    <tr>
+                        <td width="73" valign="top" align="center">{{ one|avatar:"large"|safe }}
+                            {% if show_block %}
+                            <div class="sep10"></div>
+                            {% if one_is_blocked %}
+                            <input type="button" value="撤销屏蔽" class="super normal button" onclick="recordOutboundLink(this, 'Social Graph', 'unblock'); location.href = '/unblock/{{ one.pk }}?t={{ member.created_ts }}';" />
+                            {% else %}
+                            <input type="button" value="屏蔽此人" class="super normal button" onclick="recordOutboundLink(this, 'Social Graph', 'block'); location.href = '/block/{{ one.pk }}?t={{ member.created_ts }}';" />
+                            {% endif %}
+                            {% endif %}
+                            {% if show_extra_options %}
+                            <div class="sep10"></div>
+                            <div align="center"><small><strong><a href="/backstage/deactivate/user/{{ one.pk }}?t={{ member.created_ts }}" class="dark">DEACTIVATE</a></strong></small></div>
+                            {% endif %}
+                            {% if member %}{% ifequal member.level 0 %}<div class="sep10"></div><div align="center"><a href="/backstage/member/{{ one.username }}"><img src="/static/img/gear.png" border="0" alt="管理" /></a></div>{% endifequal %}{% endif %}
+                        </td>
+                        <td width="10" valign="top"></td>
+                        <td width="auto" align="left" valign="top">{% if show_follow %}<div class="fr"><div class="sep3"></div>{% if favorited %}<a href="/unfollow/{{ one.num }}?t={{ member.created_ts }}" class="super inverse button" onClick="recordOutboundLink(this, 'Social Graph', 'unfollow');">取消特别关注</a>{% else %}<a href="/follow/{{ one.num }}?t={{ member.created_ts }}" class="super special button" onClick="recordOutboundLink(this, 'Social Graph', 'follow');">加入特别关注</a>{% endif %}</div>{% endif %}<h2 style="padding: 0px; margin: 0px; font-size: 22px; line-height: 22px;">{{ one.username }}</h2>
+                            {% if one.tagline %}
+                            <div class="sep5"></div>
+                            <span class="fade bigger">{{ one.tagline|escape }}</span>
+                            {% endif %}
+                            <div class="sep5"></div>
+                            <span class="snow">{{ site.title }} 第 {{ one.num }} 号会员，加入于 {{ one.created|timezone:8|date:"Y-n-j G:i:s A" }}</span>
+                            <div class="sep10"></div>
+                            <table cellpadding="2" cellspacing="0" border="0" width="100%">
+                                <tr>
+                                    <td width="50%">{% if one.twitter %}
+                                    <span style="line-height: 16px;"><img src="http://v2ex.com/static/img/twitter.png" align="absmiddle" /> &nbsp;<a href="http://twitter.com/{{ one.twitter }}">@{{ one.twitter }}</a></span>
+                                    {% endif %}
+                                    </td>
+                                    <td width="50%"><span style="line-height: 16px;"><img src="http://v2ex.com/static/img/heart.png" align="absmiddle" /> &nbsp;{{ one.followers_count }} followers</span></td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">{% if one.website %}
+                                    <span style="line-height: 16px;"><img src="http://v2ex.com/static/img/mobileme.png" align="absmiddle" /> &nbsp;<a href="{{ one.website|escape }}" target="_blank" rel="nofollow external">{{ one.website|escape }}</a></span>
+                                    {% endif %}
+                                    </td>
+                                    <td width="50%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">{% if one.location %}
+                                    <span style="line-height: 16px;"><img src="http://v2ex.com/static/img/location.png" align="absmiddle" /> &nbsp;<a href="http://www.google.com/maps?q={{ one.location|escape }}" target="_blank" rel="nofollow external">{{ one.location|escape }}</a></span>
+                                    {% endif %}</td>
+                                    <td width="50%"></td>
+                                </tr>
+                                <tr>
+                                    <td width="50%">{% if one.psn %}
+                                    <span style="line-height: 16px;"><img src="/static/img/psn.png" align="absmiddle" /> &nbsp;<a href="http://us.playstation.com/publictrophy/index.htm?onlinename={{ one.psn }}" target="_blank">{{ one.psn }}</a></span>
+                                    {% endif %}</td>
+                                    <td width="50%"></td>
+                                </tr>
+                                {% if one.github %}
+                                <tr>
+                                    <td width="50%">
+                                    <span style="line-height: 16px;"><img src="/static/img/github.png" align="absmiddle" /> &nbsp;<a href="http://github.com/{{ one.github }}" target="_blank">{{ one.github }}</a></span>
+                                    </td>
+                                    <td width="50%"></td>
+                                </tr>
+                                {% endif %}
+                                {% if one.btc %}
+                                <tr>
+                                    <td width="50%">
+                                    <span style="line-height: 16px;"><img src="/static/img/btc.png" align="absmiddle" /> &nbsp;<small><a href="http://blockexplorer.com/address/{{ one.btc }}" target="_blank">{{ one.btc }}</a></small></span>
+                                    </td>
+                                    <td width="50%"></td>
+                                </tr>
+                                {% endif %}
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+                {% if blog %}
+                <div class="cell">
+                <img src="/static/img/chat.png" align="absmiddle" />&nbsp; <span class="fade">Latest from {{ one.username }}'s Blog</span> &nbsp;<span class="chevron">›</span>&nbsp; <a href="/blog/{{ one.username }}">{{ blog.title|escape }}</a>
+                </div>
+                {% endif %}
+                {% if one.bio %}
+                <div class="inner">
+                    {{ one.bio|escape|imgly|mentions|autolink|linebreaksbr }}
+                </div>
+                {% endif %}
+            </div>
+            <div class="sep20"></div>
+            <div class="box">
+                <div class="cell"><span class="fade">{{ l10n.recent_topics }}</span></div>
+                <div class="inner">
+                    <table cellpadding="5" cellspacing="0" border="0" width="100%" class="topics">
+                        <tr>
+                            <th align="right" width="50">{{ l10n.header_replies }}</td>
+                            <th align="left" width="auto">{{ l10n.header_subject }}</td>
+                            <th align="left" width="200" colspan="2">{{ l10n.header_last_replied }}</td>
+                        </tr>
+                        {% for topic in topics %}
+                        <tr>
+                            <td align="right" width="50" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} lend">{% ifequal topic.replies 0 %}<span class="snow">{{ topic.replies }}</span>{% else %}<strong><span class="green">{{ topic.replies }}</span></strong>{% endifequal %}</td>
+                            <td align="left" width="auto" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}"><a href="/t/{{ topic.num }}">{{ topic.title|escape }}</a></td>
+                            <td align="left" width="80" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">{% if topic.last_reply_by %}<a href="/member/{{ topic.last_reply_by }}" class="dark">{{ topic.last_reply_by }}</a>{% else %}<a href="/member/{{ topic.created_by }}" class="dark">{{ topic.created_by }}</a>{% endif %}</td>
+                            <td align="left" width="110" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} rend"><small class="fade">{{ topic.last_touched|timezone:8|date:"Y-n-j G:i:s"}}</small></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            {% if replies %}
+            <div class="sep20"></div>
+            <div class="box">
+                <div class="cell"><span class="fade">{{ l10n.recent_participated_topics }}</span></div>
+                <div class="inner">
+                    <table cellpadding="5" cellspacing="0" border="0" width="100%" class="topics">
+                        <tr>
+                            <th align="right" width="50">{{ l10n.header_replies }}</td>
+                            <th align="left" width="auto">{{ l10n.header_subject }}</td>
+                            <th align="left" width="200" colspan="2">{{ l10n.header_last_replied }}</td>
+                        </tr>
+                        {% for reply in replies %}
+                        <tr>
+                            <td align="right" width="50" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} lend">{% ifequal reply.topic.replies 0 %}<span class="snow">{{ reply.topic.replies }}</span>{% else %}<strong><span class="green">{{ reply.topic.replies }}</span></strong>{% endifequal %}</td>
+                            <td align="left" width="auto" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}"><a href="/t/{{ reply.topic.num }}">{{ reply.topic.title|escape }}</a></td>
+                            <td align="left" width="80" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %}">{% if reply.topic.last_reply_by %}<a href="/member/{{ reply.topic.last_reply_by }}" class="dark">{{ reply.topic.last_reply_by }}</a>{% else %}<a href="/member/{{ reply.topic.created_by }}" class="dark">{{ reply.topic.created_by }}</a>{% endif %}</td>
+                            <td align="left" width="110" class="{% if forloop.counter|divisibleby:2 %}even{% else %}odd{% endif %} rend"><small class="fade">{{ reply.topic.last_touched|timezone:8|date:"Y-n-j G:i:s"}}</small></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            {% endif %}
+            
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

@@ -1,0 +1,72 @@
+{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">
+            
+        </div>
+        <div id="Rightbar">
+            {% include 'desktop/rightbar/user.html' %}
+            <div class="sep20"></div>
+            <div class="box"><div class="cell"><div class="fr"><img src="/static/img/promoted.png" align="absmiddle" /> &nbsp;<a href="http://itunes.apple.com/cn/app/statspro-for-battlefield-3/id477644283?l=en&mt=8" target="_blank" class="dark">StatsPro</a> &nbsp;<small style="color: #ccc;">for Battlefield 3</small></div><span class="fade">{{ l10n.hottest_nodes }}</span></div><div class="inner" align="left">{{ index_hottest_sidebar|safe }}</div>
+            </div>
+            <div class="sep20"></div>
+            {% include 'desktop/rightbar/latest_nodes.html' %}
+            <div class="sep20"></div>
+            {% include 'desktop/rightbar/stats.html' %}
+            {% include 'desktop/rightbar/recent_nodes.html' %}
+            <div class="sep20"></div>
+            {% include 'desktop/rightbar/ads.html' %}
+            <div class="sep20"></div>
+            {% include 'desktop/rightbar/goodies.html' %}
+        </div>
+        <div id="Content">
+            <div class="box" id="topics_index">
+                {% if member %}{% if member.show_home_top %}{{ site.home_top|safe }}{% endif %}{% else %}{{ site.home_top }}{% endif %}
+                {% if member %}
+                {% ifequal member.newbie 0 %}
+                {% ifequal member.show_quick_post 1 %}
+                <div class="cell"><div class="fr fade">请在 120 字内描述你的问题，或者，也可以使用 <a href="/new/qna">详细提问模式</a></div><span class="bigger snow"><strong style="font-family: 'Arial Black'; letter-spacing: -1.5px;">V2EX</strong> =› way to explore</span>
+                    <div class="sep3"></div><form method="post" action="/new/qna">{% csrf_token %}<textarea class="mll short" name="title"></textarea><div class="sep3"></div><div align="right"><div class="fl"><a href="/t/10686" class="node">V2EX 提问指南</a><span class="snow"> • </span><a href="/go/guide" class="node">本站规则指南</a></div><input type="submit" class="super normal button" value="向世界提问" /></div></form></div>
+                {% endifequal %}
+                {% endifequal %}
+                {% endif %}
+                {{ home|safe }}
+                {% if member %}
+                <script type="text/javascript">
+                blocked = [{{ blocked }}];
+                $("#topics_index").children('.cell').each( function(index) {
+                    for (i in blocked) {
+                        if ($(this).hasClass('from_' + blocked[i])) {
+                            $(this).css('display', 'none');
+                        }
+                    }
+                    {% if member %}
+                    if ($(this).hasClass('from_{{ member.num }}')) {
+                        $(this).find('a.count').addClass('count_orange');
+                    } else {
+                        $(this).find('a.count').addClass('count_livid');
+                    }
+                    {% else %}
+                    $(this).find('a.count').addClass('count_livid');
+                    {% endif %}
+                });
+                </script>
+                {% endif %}
+                <div class="inner">
+        		    <span class="chevron">»</span> <a href="/recent">{{ l10n.more_recent_topics }}</a>
+        		</div>
+            </div>
+            <div class="sep20"></div>
+            <div class="box">
+                <div class="cell"><div class="fr"><a href="/planes">浏览全部节点</a></div><span class="fade"><strong>{{ site.title }}</strong> / {{ l10n.nodes_portal }}</span></div>
+                {{ c|safe }}
+            </div>
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

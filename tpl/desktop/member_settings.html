@@ -1,0 +1,376 @@
+{% load babel %}{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">   
+        </div>
+        <div id="Rightbar">
+            {% include 'desktop/rightbar/user.html' %}
+            <div class="sep20"></div>
+            <div class="box">
+                <div class="cell"><span class="fade">{{ l10n.personal_records }}</span>
+                </div>
+                <div class="cell">
+                    <table cellpadding="5" cellspacing="0" border="0">
+                        <tr>
+                            <td align="right"><span class="fade">{{ l10n.blocked }}</span></td>
+                            <td align="left"><strong>{{ member_stats_blocks }}</strong></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="inner"><span class="fade">{{ l10n.updated_every_4_hours }}</span></div>
+            </div>
+        </div>
+        <div id="Content">
+            {% if message %}
+            <div class="box">
+                <div class="inner">{{ message }}</div>
+            </div>
+            <div class="sep20"></div>
+            {% endif %}
+            <div class="box">
+                <div class="cell"><span class="fade"><a href="/">{{ site.title }}</a> <span class="chevron">&nbsp;›&nbsp;</span> {{ l10n.settings }}</span></div>
+                <div class="inner">
+                    <form action="/settings" method="post">{% csrf_token %}
+                    {% if errors %}
+        			<strong>请解决以下错误之后继续。</strong>
+        			<div class="sep10"></div>
+        			<ul>
+        				{% if member_email_error %}
+        				<li>{{ member_email_error_message }}</li>
+        				{% endif %}
+        				{% if member_website_error %}
+        				<li>{{ member_website_error_message }}</li>
+        				{% endif %}
+        				{% if member_twitter_error %}
+        				<li>{{ member_twitter_error_message }}</li>
+        				{% endif %}
+        				{% if member_psn_error %}
+        				<li>{{ member_psn_error_message }}</li>
+        				{% endif %}
+        				{% if member_btc_error %}
+        				<li>{{ member_btc_error_message }}</li>
+        				{% endif %}
+        				{% if member_github_error %}
+        				<li>{{ member_github_error_message }}</li>
+        				{% endif %}
+                        {% if member_location_error %}
+        				<li>{{ member_location_error_message }}</li>
+        				{% endif %}
+        				{% if member_tagline_error %}
+        				<li>{{ member_tagline_error_message }}</li>
+        				{% endif %}
+        				{% if member_my_home_error %}
+        				<li>{{ member_my_home_error_message }}</li>
+        				{% endif %}
+        			</ul>
+        			<div class="sep10"></div>
+        			{% endif %}
+                    <table cellpadding="5" cellspacing="0" border="0">
+        			    <tr>
+        			        <td width="120" align="right">
+        			            {{ l10n.username }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            {{ member_username|escape }}
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            {{ l10n.email }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="email" value="{{ member_email|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            {{ l10n.website }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="website" value="{{ member_website|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            {{ l10n.location }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="location" value="{{ member_location|escape }}" maxlength="40" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            {{ l10n.tagline }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="tagline" value="{{ member_tagline|escape }}" />
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td align="right">
+        			            {{ l10n.bio }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <textarea class="ml" name="bio">{{ member_bio|escape }}</textarea>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            {{ l10n.twitter }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="twitter" value="{{ member_twitter|escape }}" />
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td align="right">
+        			            PSN ID
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="psn" value="{{ member_psn|escape }}" />
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td align="right">
+        			            BTC Address
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="btc" value="{{ member_btc|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            GitHub Username
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="github" value="{{ member_github|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            自定义首页跳转位置
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="my_home" value="{{ member_my_home|escape }}" />
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td align="right">
+        			            {{ l10n.language }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            {{ s|safe }}
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            {{ l10n.show_home_top }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <select name="show_home_top">
+        			            {% if member_show_home_top %}
+        			            <option value="1" selected="selected">{{ l10n.do_show }}</option>
+        			            <option value="0">{{ l10n.do_not_show }}</option>
+        			            {% else %}
+        			            <option value="1">{{ l10n.do_show }}</option>
+        			            <option value="0" selected="selected">{{ l10n.do_not_show }}</option>
+                                {% endif %}
+        			            </select>
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td align="right">
+        			            {{ l10n.show_quick_post }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <select name="show_quick_post">
+        			            {% if member_show_quick_post %}
+        			            <option value="1" selected="selected">{{ l10n.do_show }}</option>
+        			            <option value="0">{{ l10n.do_not_show }}</option>
+        			            {% else %}
+        			            <option value="1">{{ l10n.do_show }}</option>
+        			            <option value="0" selected="selected">{{ l10n.do_not_show }}</option>
+                                {% endif %}
+        			            </select>
+        			        </td>
+        			    </tr>
+        			    {% ifequal member.twitter_oauth 1 %}
+        			    <tr>
+        			        <td align="right">
+        			            <span class="small">Twitter Sync</span>
+        			        </td>
+        			        <td width="200" align="left">
+        			            {% ifequal member_twitter_sync 1 %}
+        			            <input type="checkbox" name="twitter_sync" checked="checked" />
+        			            {% else %}
+        			            <input type="checkbox" name="twitter_sync" />
+                                {% endifequal %}
+        			        </td>
+        			    </tr>
+        			    {% endifequal %}
+        			    <tr>
+        			        <td align="right">
+        			            <span class="small">Use My CSS</span>
+        			        </td>
+        			        <td width="200" align="left">
+        			            {% ifequal member_use_my_css 1 %}
+        			            <input type="checkbox" name="use_my_css" checked="checked" />
+        			            {% else %}
+        			            <input type="checkbox" name="use_my_css" />
+        			            {% endifequal %}
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            <span class="small">My CSS</span>
+        			        </td>
+        			        <td width="200" align="left">
+        			            <textarea class="ml" name="my_css">{{ member_my_css|escape }}</textarea>
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td align="right">
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="submit" value="{{ l10n.save_settings }}" class="super normal button" />
+        			        </td>
+        			    </tr>
+        			</table>
+                    </form>
+                </div>
+            </div>
+            <div class="sep20"></div>
+            <div class="box">
+                <div class="cell"><span class="fade">{{ l10n.avatar }}</span></div>
+                <div class="inner">
+        			<table cellpadding="5" cellspacing="0" border="0">
+        			    <tr>
+        			        <td width="120" align="right">
+        			            {{ l10n.current_avatar }}
+        			        </td>
+        			        <td align="left">
+        			            {{ member|avatar:"large"|safe }}&nbsp; 
+								{{ member|avatar:"normal"|safe }}&nbsp;
+								{{ member|avatar:"mini"|safe }}&nbsp;
+        			        </td>
+        			    </tr>
+        				<tr>
+        			        <td align="right">
+
+        			        </td>
+        			        <td align="left">
+        			            <div class="sep5"></div>
+        			            <a href="/settings/avatar" class="super normal button">{{ l10n.upload_new_avatar }}</a> &nbsp; <!--<span class="fade">{{ l10n.gravatar_support }}</span>-->
+        			        </td>
+        			    </tr>
+        			</table>
+                  
+                </div>
+            </div>
+            <div class="sep20"></div>
+            <div class="box">
+                <div class="cell">
+                    <span class="fade">{{ l10n.security }}</span>
+                </div>
+                <div class="inner">
+                    <form action="/settings/password" method="post">{% csrf_token %}
+                    {% if password_error %}
+        			<strong>请解决以下错误之后继续。</strong>
+        			<div class="sep10"></div>
+        			<ul>
+        				{% if password_error %}
+        				<li>{{ password_error_message }}</li>
+        				{% endif %}
+        			</ul>
+        			<div class="sep10"></div>
+        			{% else %}
+        			<strong class="fade">{{ l10n.leave_blank }}</strong>
+        			{% endif %}
+        			<div class="sep5"></div>
+        			<table cellpadding="5" cellspacing="0" border="0">
+        			    <tr>
+        			        <td width="120" align="right">
+        			            {{ l10n.current_password }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="password" class="sl" name="password_current" value="{{ password_current|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			            {{ l10n.new_password }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="password" class="sl" name="password_new" value="{{ password_new|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="submit" value="{{ l10n.change_password }}" class="super normal button" />
+        			        </td>
+        			    </tr>
+        			</table>
+                    </form>
+                </div>
+            </div>
+            <div class="sep20"></div>
+            <div class="box">
+                <div class="cell"><span class="fade">Twitter</span></div>
+                <div class="cell">
+                    <table cellpadding="5" cellspacing="0" border="0">
+                        {% ifequal member.twitter_oauth 1 %}
+                        <tr>
+        			        <td width="120" align="right">
+        			            <img src="{{ member.twitter_profile_image_url }}" />
+        			        </td>
+        			        <td width="200" align="left">
+        			            {{ member.twitter_name }} <span class="fade">@<a href="http://twitter.com/{{ member.twitter_screen_name }}" target="_blank">{{ member.twitter_screen_name }}</a></span>
+        			            <div class="sep5"></div>
+        			            <span class="fade">
+        			            {{ member.twitter_statuses_count }} tweets
+        			            <div class="sep3"></div>
+        			            {{ member.twitter_followers_count }} followers, following {{ member.twitter_friends_count }}
+        			            </span>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="submit" value="Unlink My Twitter Account" class="super normal button" onclick="location.href = '/twitter/unlink'" />
+        			        </td>
+        			    </tr>
+                        {% else %}
+                        <tr>
+        			        <td width="120" align="right">
+        			            {{ l10n.account_status }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <span class="fade">{{ l10n.twitter_not_linked }}</span>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td align="right">
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="submit" value="Link My Twitter Account" class="super normal button" onclick="location.href = '/twitter/link'" />
+        			        </td>
+        			    </tr>
+                        {% endifequal %}
+        			</table>
+                </div>
+                <div class="inner">
+                    {{ l10n.twitter_link_explained }}
+                </div>
+            </div>
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

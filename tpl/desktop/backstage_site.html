@@ -1,0 +1,196 @@
+{% include 'desktop/common/head.html' %}
+<body>
+    {% include 'desktop/common/top.html' %}
+    <div id="Wrapper">
+    <div id="Main">
+        <div id="Sidebar">   
+        </div>
+        <div id="Rightbar">
+            {% include 'desktop/rightbar/backstage_site_permissions.html' %}
+        </div>
+        <div id="Content">
+            {% if message %}
+            <div class="box">
+                <div class="inner">{{ message }}</div>
+            </div>
+            <div class="sep20"></div>
+            {% endif %}
+            <div class="box">
+                <div class="cell"><span class="fade"><a href="/">{{ site.title }}</a> <span class="chevron">&nbsp;›&nbsp;</span> <a href="/backstage">{{ l10n.backstage }}</a> <span class="chevron">&nbsp;›&nbsp;</span> {{ l10n.site_settings }}</span></div>
+                <div class="inner">
+                    <form action="/backstage/site" method="post">{% csrf_token %}
+                    {% if errors %}
+        			<strong>{{ l10n.resolve_errors }}</strong>
+        			<div class="sep10"></div>
+        			<ul>
+        				{% if site_title_error %}
+        				<li>{{ site_title_error_message }}</li>
+        				{% endif %}
+        				{% if site_slogan_error %}
+        				<li>{{ site_slogan_error_message }}</li>
+        				{% endif %}
+        				{% if site_domain_error %}
+        				<li>{{ site_domain_error_message }}</li>
+        				{% endif %}
+        				{% if site_description_error %}
+        				<li>{{ site_description_error_message }}</li>
+        				{% endif %}
+        				{% if site_home_categories_error %}
+        				<li>{{ site_home_categories_error_message }}</li>
+        				{% endif %}
+        				{% if site_analytics_error %}
+        				<li>{{ site_analytics_error_message }}</li>
+        				{% endif %}
+        			</ul>
+        			<div class="sep10"></div>
+        			{% endif %}
+                    <table cellpadding="5" cellspacing="0" border="0">
+        			    <tr>
+        			        <td width="100" align="right">
+        			            {{ l10n.site_name }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="title" value="{{ site_title|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            {{ l10n.site_slogan }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="slogan" value="{{ site_slogan|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            {{ l10n.site_domain }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="domain" value="{{ site_domain|escape }}" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            {{ l10n.site_description }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <textarea class="ml" name="description">{{ site_description|escape }}</textarea>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            {{ l10n.site_home_categories }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <textarea class="ml" name="home_categories">{{ site_home_categories|escape }}</textarea>
+        			            <div class="sep5"></div>
+        			            <span class="fade">{{ l10n.one_category_per_line }}</span>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            Meta
+        			        </td>
+        			        <td width="200" align="left">
+        			            <textarea class="ml" name="meta">{{ site_meta|escape }}</textarea>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            首页顶部内容
+        			        </td>
+        			        <td width="200" align="left">
+        			            <span class="fade">请使用 HTML 编辑此部分</span>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td colspan="2">
+        			            <textarea class="mle tall" name="home_top">{{ site_home_top|escape }}</textarea>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            {{ l10n.site_theme }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            <select name="theme">
+        			            {% for theme in themes %}
+        			            {% ifequal theme site_theme %}
+        			            <option value="{{ theme }}" selected="selected">{{ theme }}</option>
+                                {% else %}
+        			            <option value="{{ theme }}">{{ theme }}</option>
+        			            {% endifequal %}
+        			            {% endfor %}
+        			            </select>
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            Analytics ID
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="analytics" value="{{ site_analytics|escape }}" maxlength="40" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            {{ l10n.language }}
+        			        </td>
+        			        <td width="200" align="left">
+        			            {{ s|safe }}
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            主题打开权限
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="topic_view_level" value="{{ site_topic_view_level|escape }}" maxlength="40" />
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td width="100" align="right">
+        			            主题创建权限
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="topic_create_level" value="{{ site_topic_create_level|escape }}" maxlength="40" />
+        			        </td>
+        			    </tr>
+                        <tr>
+        			        <td width="100" align="right">
+        			            主题回复权限
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="text" class="sl" name="topic_reply_level" value="{{ site_topic_reply_level|escape }}" maxlength="40" />
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			            Data Migration Mode
+        			        </td>
+        			        <td width="200" align="left">
+        			            {% ifequal site_data_migration_mode 1 %}
+        			            <input type="checkbox" name="data_migration_mode" checked="checked" />
+        			            {% else %}
+        			            <input type="checkbox" name="data_migration_mode" />
+        			            {% endifequal %}
+        			        </td>
+        			    </tr>
+        			    <tr>
+        			        <td width="100" align="right">
+        			        </td>
+        			        <td width="200" align="left">
+        			            <input type="submit" value="{{ l10n.save }}" class="super normal button" />
+        			        </td>
+        			    </tr>
+        			</table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    <div class="c"></div>
+    </div>
+    </div>
+    {% include 'desktop/common/bottom.html' %}
+</body>
+</html>

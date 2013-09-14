@@ -1,0 +1,24 @@
+<div class="box">
+    <div class="cell">
+        <span class="fade">{{ l10n.community_stats }}</span>
+    </div>
+    <div class="cell">
+        <table cellpadding="3" cellspacing="0" border="0" width="100%">
+            <tr>
+                <td align="right" width="40%"><span class="fade">{{ l10n.total_members }}</span></td>
+                <td align="left"><strong>{{ member_total }}</strong></td>
+            </tr>
+            <tr>
+                <td align="right" width="40%"><span class="fade">{{ l10n.total_topics }}</span></td>
+                <td align="left"><strong>{{ topic_total }}</strong></td>
+            </tr>
+            <tr>
+                <td align="right" width="40%"><span class="fade">{{ l10n.total_replies }}</span></td>
+                <td align="left"><strong>{{ reply_total }}</strong></td>
+            </tr>
+        </table>
+    </div>
+    <div class="inner">
+        <img src="/static/img/rss.png?r=1" align="absmiddle" /> &nbsp;<a href="/index.xml" target="_blank" class="dark">{{ l10n.rss_subscribe }}</a>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+{% load babel %}<div id="Top">
+    {% if member %}
+        <div id="Member"><a href="/member/{{ member.username_lower|escape }}" class="white">{{ member|avatar:"mini"|safe }}</a> &nbsp; <a href="/notes" class="white"><div id="NoteIcon"></div></a> &nbsp; <a href="/settings" class="white"><div id="GearIcon"></div></a>{% ifequal member.num 1 %} &nbsp; <a href="/backstage" class="white"><div id="BurnIcon"></div></a>{% endifequal %} &nbsp; <a href="/signout" class="white"><div id="EjectIcon"></div></a></div>
+    {% else %}
+        <div id="Member"><a href="/signin" class="white">登入</a> | <a href="/signup" class="white">注册</a></div>
+    {% endif %}
+    <div id="Logo" onclick="location.href='/'"></div>
+</div>

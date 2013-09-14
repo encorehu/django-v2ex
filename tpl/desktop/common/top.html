@@ -1,0 +1,45 @@
+<!--<div id="SteveJobs" style="background-color: #000; color: #fff; text-align: center; font-size: 12px; padding: 5px; line-height: 12px; font-weight: 500;"><div style="width: 200px; text-align: left; float: left;"><a href="http://www.apple.com/" target="_blank" class="white">Apple</a>&nbsp; <img src="http://static.v2ex.com/20111006/signal.png" align="absmiddle" style="margin-top: -1px;" /></div><div style="float: right; text-align: right; width=200px;"><a href="http://www.apple.com/stevejobs" target="_blank" class="white">100%</a> &nbsp;<img src="http://static.v2ex.com/20111006/battery.png" align="absmiddle" style="margin-top: -3px;" /></div><div style="margin: 0px 200px 0px 200px;"><a href="/t/19029" class="white"> 1955-2011 Steve Jobs</a></div></div>-->
+<div id="Top"><a href="#;" name="_top"></a>
+    <div id="TopMain">
+        <a href="/"><img src="/static/img/logo_20110809.png" border="0" style="display: block; float: left; margin-top: 9px; margin-left: 20px;" /></a>
+        <div id="Navigation">
+            {% if member %}
+            <ul>
+                <li><a href="/" class="top">{{ l10n.home }}</a></li>
+                <li><a href="/member/{{ member.username }}" class="top">{{ member.username }}</a></li>
+                {% ifequal member.twitter_oauth 1 %}
+                <li><a href="/twitter" class="top"><img src="/static/img/bird.png" style="padding: 0px 3px 0px 3px;" border="0" alt="Twitter" /></a></li>
+                {% endifequal %}
+                <!--<li><a href="/images" class="top">图片</a></li>-->
+                <!--<li><a href="/mentions" class="top">提到我的</a></li>-->
+                <li><a href="https://workspace.v2ex.com/" class="top" target="_blank">{{ l10n.workspace }}</li>
+                <li><a href="/notes" class="top">{{ l10n.notes }}</a></li>
+                <li><a href="/place/{{ member.ip }}" class="top">{{ l10n.nearby }}</a></li>
+                <li><a href="/settings" class="top">{{ l10n.settings }}</a></li>
+                {% ifequal member.level 0 %}
+                <li><a href="/backstage" class="top">{{ l10n.backstage }}</a></li>
+                {% endifequal %}
+                <li><a href="/signout" class="top">{{ l10n.signout }}</a></li>
+            </ul>
+            {% else %}
+            <ul>
+                <li><a href="/" class="top">{{ l10n.home }}</a></li>
+                <li><a href="/signup" class="top">{{ l10n.signup }}</a></li>
+                <li><a href="/signin" class="top">{{ l10n.signin }}</a></li>
+            </ul>
+            {% endif %}
+        </div>
+        <script type="text/javascript">
+            var dispatch = function() {
+                q = document.getElementById("q");
+                if (q.value != "") {
+                    window.open('http://www.google.com/search?q=site:v2ex.com/t%20' + q.value, "_blank");
+                    return false;
+                } else {
+                    return false;
+                }
+            }
+        </script>
+        <div id="Search"><form onsubmit="return dispatch()">{% csrf_token %}<!--<input type="text" class="search" maxlength="40" name="q" value="{{ q|escape }}" id="q" /><input type="submit" class="super normal button" value="Search" style="-moz-border-radius: 0px 5px 5px 0px; border: none;" />--><div style="width: 276px; height: 28px; background-image: url('/static/img/qbar.png'); background-repeat: no-repeat; display: inline-block;"><input type="text" maxlength="40" name="q" id="q" value="{{ q|escape }}" /></div></form></div>
+    </div>
+</div>
