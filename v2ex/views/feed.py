@@ -46,7 +46,7 @@ class FeedHomeHandler(BaseHandler):
                 cache.set('feed_home', topics, 3600)
             self.values['topics'] = topics
             self.values['feed_title'] = self.site.title
-            path = 'feed', 'index.xml')
+            path = 'feed/index.xml'
             output = template.render(path, self.values)
             cache.set('feed_index', output, 3600)
         self.response.headers['Content-type'] = 'application/xml;charset=UTF-8'
@@ -76,7 +76,7 @@ class FeedReadHandler(BaseHandler):
                 cache.set('feed_home', topics, 3600)
             self.values['topics'] = topics
             self.values['feed_title'] = self.site.title
-            path = 'feed', 'read.xml')
+            path = 'feed/read.xml'
             output = template.render(path, self.values)
             cache.set('feed_read_output', output, 3600)
         self.response.headers['Content-type'] = 'application/xml;charset=UTF-8'
@@ -107,8 +107,8 @@ class FeedNodeHandler(View):
             for topic in q:
                 topics.append(topic)
             template_values['topics'] = topics
-            template_values['feed_title'] = site.title + u' › ' + node.title
-            path = 'feed', 'index.xml')
+            template_values['feed_title'] = site.title + u' 鈥?' + node.title
+            path = 'feed/index.xml'
             output = template.render(path, template_values)
             cache.set('feed_node_' + node.name, output, 7200)
         self.response.headers['Content-type'] = 'application/xml;charset=UTF-8'

@@ -17,6 +17,12 @@ from google.appengine.api import urlfetch
 from django.db import models
 #from google.appengine.ext.webapp import util
 from django import template
+from django.http import HttpResponse,HttpResponseRedirect,Http404
+from django.shortcuts import render,redirect
+from django.conf import settings
+
+from django.db import models
+from django.views.generic import View, ListView,TemplateView
 
 from v2ex.babel.models import Member
 from v2ex.babel.models import Counter
@@ -66,6 +72,7 @@ class ImagesHomeHandler(View):
             return render(request, path, template_values)
         else:
             #self.redirect('/signin')
+            return redirect('/signin')
 
 class ImagesUploadHandler(View):
     def post(self, request):
@@ -88,6 +95,7 @@ class ImagesUploadHandler(View):
                 #self.redirect('/images')
         else:
             #self.redirect('/signin')
+            return redirect('/signin')
 
 class ImagesUploadRulesHandler(View):
     def get(self, request):
@@ -102,8 +110,9 @@ class ImagesUploadRulesHandler(View):
         template_values['l10n'] = l10n
         template_values['system_version'] = SYSTEM_VERSION
         path = 'desktop/images_rules.html'
-        output = template.render(path, template_values)
-        self.response.out.write(output)
+        #output = template.render(path, template_values)
+        #self.response.out.write(output)
+        return render(request, path, template_values)
         
 
 def main():

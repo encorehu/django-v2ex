@@ -60,7 +60,7 @@ class SiteStatsHandler(ApiHandler):
         template_values = {}
         template_values['topic_max'] = GetKindByName('Counter', 'topic.max')
         template_values['member_max'] = GetKindByName('Counter', 'member.max')
-        path = 'api', 'site_stats.json')
+        path = 'api/site_stats.json'
         output = template.render(path, template_values)
         self.write(output)
 
@@ -70,7 +70,7 @@ class SiteInfoHandler(ApiHandler):
         site = GetSite()
         template_values = {}
         template_values['site'] = site
-        path = 'api', 'site_info.json')
+        path = 'api/site_info.json'
         output = template.render(path, template_values)
         self.write(output)
 
@@ -88,7 +88,7 @@ class NodesAllHandler(ApiHandler):
                 nodes = db.GqlQuery("SELECT * FROM Node")
                 cache.set('api_nodes_all', nodes, 3600)
             template_values['nodes'] = nodes
-            path = 'api', 'nodes_all.json')
+            path = 'api/nodes_all.json'
             output = template.render(path, template_values)
             cache.set('api_nodes_all', output, 86400)
         self.write(output)
@@ -114,17 +114,17 @@ class NodesShowHandler(ApiHandler):
                 node = GetKindByName('Node', str(parameter_name))
             if node is not False:
                 template_values['node'] = node
-                path = 'api', 'nodes_show.json')
+                path = 'api/nodes_show.json'
                 output = template.render(path, template_values)
                 self.write(output)
             else:
                 template_values['message'] = 'Node not found'
-                path = 'api', 'error.json')
+                path = 'api/error.json'
                 output = template.render(path, template_values)
                 self.write(output)
         else:
             template_values['message'] = "Required parameter id or name is missing"
-            path = 'api', 'error.json')
+            path = 'api/error.json'
             output = template.render(path, template_values)
             self.write(output)
 
@@ -141,7 +141,7 @@ class TopicsLatestHandler(ApiHandler):
             cache.set('api_topics_latest', topics, 120)
         template_values['topics'] = topics
         template_values['topics_count'] = topics.count()
-        path = 'api', 'topics_latest.json')
+        path = 'api/topics_latest.json'
         output = template.render(path, template_values)
         self.write(output)
 
@@ -172,7 +172,7 @@ class TopicsShowHandler(ApiHandler):
                 method_determined = True
         if method_determined is False:
             template_values['message'] = "Required parameter id, username, node_id or node_name is missing"
-            path = 'api', 'error.json')
+            path = 'api/error.json'
             output = template.render(path, template_values)
             self.response.set_status(400, 'Bad Request')
             self.write(output)
@@ -210,12 +210,12 @@ class TopicsShowHandler(ApiHandler):
                         topics = db.GqlQuery("SELECT * FROM Topic WHERE node_num = :1 ORDER BY last_touched DESC LIMIT 20", node.num)
                         template_values['topics'] = topics
             if topic or topics:
-                path = 'api', 'topics_show.json')
+                path = 'api/topics_show.json'
                 output = template.render(path, template_values)
                 self.write(output)
             else:
                 template_values['message'] = "Failed to get topics"
-                path = 'api', 'error.json')
+                path = 'api/error.json'
                 output = template.render(path, template_values)
                 self.response.set_status(400, 'Bad Request')
                 self.write(output)
@@ -235,7 +235,7 @@ class TopicsCreateHandler(View):
             template_values = {}
             template_values['site'] = site
             template_values['message'] = "Authentication required"
-            path = 'api', 'error.json')
+            path = 'api/error.json'
             output = template.render(path, template_values)
             self.response.set_status(401, 'Unauthorized')
             self.response.headers['Content-type'] = 'application/json'
@@ -259,19 +259,19 @@ class RepliesShowHandler(ApiHandler):
             replies = db.GqlQuery("SELECT * FROM Reply WHERE topic_num = :1 ORDER BY created ASC LIMIT " + str(page_start) + "," + str(page_size), int(topic_id))
             replies = Reply.objects.filter(topic_num = int(topic_id)).order_by('created').all()[page_start:page_start+page_size]
             if replies:
-                path = 'api', 'replies_show.json')
+                path = 'api/replies_show.json'
                 template_values['replies'] = replies
                 output = template.render(path, template_values)
                 self.write(output)
             else:
                 template_values['message'] = "Failed to get replies"
-                path = 'api', 'error.json')
+                path = 'api/error.json'
                 output = template.render(path, template_values)
                 self.response.set_status(400, 'Bad Request')
                 self.write(output)
         else:
             template_values['message'] = "Required parameter topic_id is missing"
-            path = 'api', 'error.json')
+            path = 'api/error.json'
             output = template.render(path, template_values)
             self.response.set_status(400, 'Bad Request')
             self.write(output)
@@ -293,18 +293,18 @@ class MembersShowHandler(ApiHandler):
                         one.avatar_normal_url = 'http://' +  site.domain + one.avatar_normal_url
                         one.avatar_large_url = 'http://' + site.domain + one.avatar_large_url
                 template_values['member'] = one
-                path = 'api', 'members_show.json')
+                path = 'api/members_show.json'
                 output = template.render(path, template_values)
                 self.write(output)
             else:
                 template_values['message'] = "Member not found"
-                path = 'api', 'error.json')
+                path = 'api/error.json'
                 output = template.render(path, template_values)
                 self.response.set_status(400, 'Bad Request')
                 self.write(output)
         else:
             template_values['message'] = "Required parameter username is missing"
-            path = 'api', 'error.json')
+            path = 'api/error.json'
             output = template.render(path, template_values)
             self.response.set_status(400, 'Bad Request')
             self.write(output)
@@ -326,7 +326,7 @@ class CurrencyHandler(ApiHandler):
                 else:
                     value = 0
                 template_values[code.lower()] = value
-            path = 'api', 'currency.json')
+            path = 'api/currency.json'
             o = template.render(path, template_values)
             cache.set('currency.json', o, 86400)
         self.write(o)

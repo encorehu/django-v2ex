@@ -14,7 +14,14 @@ from django.core.cache import cache
 from django.db import models
 #from google.appengine.ext.webapp import util
 from django import template
-from google.appengine.api.labs import taskqueue
+#from google.appengine.api.labs import taskqueue
+from django.http import HttpResponse,HttpResponseRedirect,Http404
+from django.shortcuts import render,redirect
+from django.conf import settings
+
+from django.db import models
+from django.views.generic import View, ListView,TemplateView
+
 
 from v2ex.babel.models import Member
 from v2ex.babel.models import Counter
@@ -46,6 +53,7 @@ class MoneyDashboardHandler(BaseHandler):
             self.finalize(template_name='money_dashboard')
         else:
             #self.redirect('/signin')
+            return redirect('/signin')
 
 def main():
     application = webapp.WSGIApplication([
