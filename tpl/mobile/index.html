@@ -32,9 +32,9 @@
         </div>
 	    {% endif %}
         <div class="section">{{ l10n.nodes_portal }}</div>
-		{{ c }}
+		{{ c|safe }}
 	</div>
 	{% include 'mobile/common/bottom.html' %}
-	{% include 'ads/running.html' %}
+	{% include 'mobile/ads/running.html' %}
 </body>
 </html>
