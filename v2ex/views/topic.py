@@ -130,7 +130,7 @@ class NewTopicHandler(View):
         can_continue = True
         if ('HTTP_HOST' in self.request.META):
             print self.request.META['HTTP_HOST']
-            if (self.request.META['HTTP_HOST'] not in ['localhost:8000', 'localhost:10000']):
+            if (self.request.META['HTTP_HOST'] not in ['djangov2ex.duapp.com','0.djangov2ex.duapp.com','localhost:8000', 'localhost:10000']):
                 can_continue = False
         else:
             can_continue = False
@@ -161,7 +161,7 @@ class NewTopicHandler(View):
 #                has_v2ex = True
 #            if ('http://beta.v2ex.com' in self.request.META['HTTP_REFERER']):
 #                has_v2ex = True
-            if ('http://' + str(site.domain) in self.request.META['HTTP_REFERER']):
+            if (('http://' + str(site.domain)) in self.request.META['HTTP_REFERER']):
                 has_v2ex = True
             if has_v2ex is False:
                 can_continue = False
@@ -590,7 +590,7 @@ class TopicHandler(View):
         ### BEGIN: CAN CONTINUE
         can_continue = True
         if ('HTTP_HOST' in self.request.META):
-            if (self.request.META['HTTP_HOST'] not in ['localhost:8000', 'localhost:10000']):
+            if (self.request.META['HTTP_HOST'] not in ['djangov2ex.duapp.com','0.djangov2ex.duapp.com','localhost:8000', 'localhost:10000']):
                 can_continue = False
         else:
             can_continue = False
